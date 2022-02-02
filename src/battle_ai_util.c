@@ -655,7 +655,7 @@ bool32 IsAffectedByPowder(u8 battler, u16 ability, u16 holdEffect)
 
 // This function checks if all physical/special moves are either unusable or unreasonable to use.
 // Consider a pokemon boosting their attack against a ghost pokemon having only normal-type physical attacks.
-bool32 MovesWithSplitUnusable(u32 attacker, u32 target, u32 split)
+bool32 MovesWithCategoryUnusable(u32 attacker, u32 target, u32 moveCategory)
 {
     s32 i, moveType;
     u32 usable = 0;
@@ -666,7 +666,7 @@ bool32 MovesWithSplitUnusable(u32 attacker, u32 target, u32 split)
     {
         if (moves[i] != MOVE_NONE
             && moves[i] != 0xFFFF
-            && GetBattleMoveSplit(moves[i]) == split
+            && GetBattleMoveCategory(moves[i]) == moveCategory
             && !(unusable & gBitTable[i]))
         {
             SetTypeBeforeUsingMove(moves[i], attacker);
@@ -1715,7 +1715,7 @@ bool32 ShouldLowerAttack(u8 battlerAtk, u8 battlerDef, u16 defAbility)
         return FALSE; // Don't bother lowering stats if can kill enemy.
 
     if (gBattleMons[battlerDef].statStages[STAT_ATK] > 4
-      && HasMoveWithSplit(battlerDef, SPLIT_PHYSICAL)
+      && HasMoveWithCategory(battlerDef, MOVE_CATEGORY_PHYSICAL)
       && defAbility != ABILITY_CONTRARY
       && defAbility != ABILITY_CLEAR_BODY
       && defAbility != ABILITY_WHITE_SMOKE
@@ -1731,7 +1731,7 @@ bool32 ShouldLowerDefense(u8 battlerAtk, u8 battlerDef, u16 defAbility)
         return FALSE; // Don't bother lowering stats if can kill enemy.
 
     if (gBattleMons[battlerDef].statStages[STAT_DEF] > 4
-      && HasMoveWithSplit(battlerAtk, SPLIT_PHYSICAL)
+      && HasMoveWithCategory(battlerAtk, MOVE_CATEGORY_PHYSICAL)
       && defAbility != ABILITY_CONTRARY
       && defAbility != ABILITY_CLEAR_BODY
       && defAbility != ABILITY_WHITE_SMOKE
@@ -1761,7 +1761,7 @@ bool32 ShouldLowerSpAtk(u8 battlerAtk, u8 battlerDef, u16 defAbility)
         return FALSE; // Don't bother lowering stats if can kill enemy.
 
     if (gBattleMons[battlerDef].statStages[STAT_SPATK] > 4
-      && HasMoveWithSplit(battlerDef, SPLIT_SPECIAL)
+      && HasMoveWithCategory(battlerDef, MOVE_CATEGORY_SPECIAL)
       && defAbility != ABILITY_CONTRARY
       && defAbility != ABILITY_CLEAR_BODY
       && defAbility != ABILITY_FULL_METAL_BODY
@@ -1776,7 +1776,7 @@ bool32 ShouldLowerSpDef(u8 battlerAtk, u8 battlerDef, u16 defAbility)
         return FALSE; // Don't bother lowering stats if can kill enemy.
 
     if (gBattleMons[battlerDef].statStages[STAT_SPDEF] > 4
-      && HasMoveWithSplit(battlerAtk, SPLIT_SPECIAL)
+      && HasMoveWithCategory(battlerAtk, MOVE_CATEGORY_SPECIAL)
       && defAbility != ABILITY_CONTRARY
       && defAbility != ABILITY_CLEAR_BODY
       && defAbility != ABILITY_FULL_METAL_BODY
@@ -1833,7 +1833,7 @@ u16 *GetMovesArray(u32 battler)
         return gBattleResources->battleHistory->usedMoves[battler];
 }
 
-bool32 HasOnlyMovesWithSplit(u32 battlerId, u32 split, bool32 onlyOffensive)
+bool32 HasOnlyMovesWithCategory(u32 battlerId, u32 moveCategory, bool32 onlyOffensive)
 {
     u32 i;
     u16 *moves = GetMovesArray(battlerId);
@@ -1842,21 +1842,21 @@ bool32 HasOnlyMovesWithSplit(u32 battlerId, u32 split, bool32 onlyOffensive)
     {
         if (onlyOffensive && IS_MOVE_STATUS(moves[i]))
             continue;
-        if (moves[i] != MOVE_NONE && moves[i] != 0xFFFF && GetBattleMoveSplit(moves[i]) != split)
+        if (moves[i] != MOVE_NONE && moves[i] != 0xFFFF && GetBattleMoveCategory(moves[i]) != moveCategory)
             return FALSE;
     }
 
     return TRUE;
 }
 
-bool32 HasMoveWithSplit(u32 battler, u32 split)
+bool32 HasMoveWithCategory(u32 battler, u32 moveCategory)
 {
     u32 i;
     u16 *moves = GetMovesArray(battler);
 
     for (i = 0; i < MAX_MON_MOVES; i++)
     {
-        if (moves[i] != MOVE_NONE && moves[i] != 0xFFFF && GetBattleMoveSplit(moves[i]) == split)
+        if (moves[i] != MOVE_NONE && moves[i] != 0xFFFF && GetBattleMoveCategory(moves[i]) == moveCategory)
             return TRUE;
     }
 
@@ -2400,11 +2400,11 @@ static bool32 AnyUsefulStatIsRaised(u8 battler)
             switch (statId)
             {
             case STAT_ATK:
-                if (HasMoveWithSplit(battler, SPLIT_PHYSICAL))
+                if (HasMoveWithCategory(battler, MOVE_CATEGORY_PHYSICAL))
                     return TRUE;
                 break;
             case STAT_SPATK:
-                if (HasMoveWithSplit(battler, SPLIT_SPECIAL))
+                if (HasMoveWithCategory(battler, MOVE_CATEGORY_SPECIAL))
                     return TRUE;
                 break;
             case STAT_SPEED:
@@ -2685,7 +2685,7 @@ bool32 AI_CanPutToSleep(u8 battlerAtk, u8 battlerDef, u16 defAbility, u16 move, 
 
 static bool32 AI_CanPoisonType(u8 battlerAttacker, u8 battlerTarget)
 {
-    return ((AI_GetAbility(battlerAttacker) == ABILITY_CORROSION && gBattleMoves[gCurrentMove].split == SPLIT_STATUS)
+    return ((AI_GetAbility(battlerAttacker) == ABILITY_CORROSION && gBattleMoves[gCurrentMove].category == MOVE_CATEGORY_STATUS)
             || !(IS_BATTLER_OF_TYPE(battlerTarget, TYPE_POISON) || IS_BATTLER_OF_TYPE(battlerTarget, TYPE_STEEL)));
 }
 
@@ -2713,8 +2713,8 @@ bool32 ShouldPoisonSelf(u8 battler, u16 ability)
       || ability == ABILITY_POISON_HEAL
       || ability == ABILITY_QUICK_FEET
       || ability == ABILITY_MAGIC_GUARD
-      || (ability == ABILITY_TOXIC_BOOST && HasMoveWithSplit(battler, SPLIT_PHYSICAL))
-      || (ability == ABILITY_GUTS && HasMoveWithSplit(battler, SPLIT_PHYSICAL))
+      || (ability == ABILITY_TOXIC_BOOST && HasMoveWithCategory(battler, MOVE_CATEGORY_PHYSICAL))
+      || (ability == ABILITY_GUTS && HasMoveWithCategory(battler, MOVE_CATEGORY_PHYSICAL))
       || HasMoveEffect(battler, EFFECT_FACADE)
       || HasMoveEffect(battler, EFFECT_PSYCHO_SHIFT)))
         return TRUE;    // battler can be poisoned and has move/ability that synergizes with being poisoned
@@ -2798,8 +2798,8 @@ bool32 ShouldBurnSelf(u8 battler, u16 ability)
      ability == ABILITY_QUICK_FEET
       || ability == ABILITY_HEATPROOF
       || ability == ABILITY_MAGIC_GUARD
-      || (ability == ABILITY_FLARE_BOOST && HasMoveWithSplit(battler, SPLIT_SPECIAL))
-      || (ability == ABILITY_GUTS && HasMoveWithSplit(battler, SPLIT_PHYSICAL))
+      || (ability == ABILITY_FLARE_BOOST && HasMoveWithCategory(battler, MOVE_CATEGORY_SPECIAL))
+      || (ability == ABILITY_GUTS && HasMoveWithCategory(battler, MOVE_CATEGORY_PHYSICAL))
       || HasMoveEffect(battler, EFFECT_FACADE)
       || HasMoveEffect(battler, EFFECT_PSYCHO_SHIFT)))
         return TRUE;
@@ -3016,13 +3016,13 @@ bool32 ShouldSetScreen(u8 battlerAtk, u8 battlerDef, u16 moveEffect)
         break;
     case EFFECT_REFLECT:
         // Use only if the player has a physical move and AI doesn't already have Reflect itself active.
-        if (HasMoveWithSplit(battlerDef, SPLIT_PHYSICAL)
+        if (HasMoveWithCategory(battlerDef, MOVE_CATEGORY_PHYSICAL)
             && !(gSideStatuses[atkSide] & SIDE_STATUS_REFLECT))
             return TRUE;
         break;
     case EFFECT_LIGHT_SCREEN:
         // Use only if the player has a special move and AI doesn't already have Light Screen itself active.
-        if (HasMoveWithSplit(battlerDef, SPLIT_SPECIAL)
+        if (HasMoveWithCategory(battlerDef, MOVE_CATEGORY_SPECIAL)
             && !(gSideStatuses[atkSide] & SIDE_STATUS_LIGHTSCREEN))
             return TRUE;
         break;
@@ -3316,7 +3316,7 @@ bool32 IsPartyFullyHealedExceptBattler(u8 battlerId)
     return TRUE;
 }
 
-bool32 PartyHasMoveSplit(u8 battlerId, u8 split)
+bool32 PartyHasMoveCategory(u8 battlerId, u8 moveCategory)
 {
     u8 firstId, lastId;
     struct Pokemon* party = GetBattlerPartyData(battlerId);
@@ -3335,7 +3335,7 @@ bool32 PartyHasMoveSplit(u8 battlerId, u8 split)
             if (pp > 0 && move != MOVE_NONE)
             {
                 //TODO - handle photon geyser, light that burns the sky
-                if (gBattleMoves[move].split == split)
+                if (gBattleMoves[move].category == moveCategory)
                     return TRUE;
             }
         }
@@ -3344,16 +3344,16 @@ bool32 PartyHasMoveSplit(u8 battlerId, u8 split)
     return FALSE;
 }
 
-bool32 SideHasMoveSplit(u8 battlerId, u8 split)
+bool32 SideHasMoveCategory(u8 battlerId, u8 moveCategory)
 {
     if (IsDoubleBattle())
     {
-        if (HasMoveWithSplit(battlerId, split) || HasMoveWithSplit(BATTLE_PARTNER(battlerId), split))
+        if (HasMoveWithCategory(battlerId, moveCategory) || HasMoveWithCategory(BATTLE_PARTNER(battlerId), moveCategory))
             return TRUE;
     }
     else
     {
-        if (HasMoveWithSplit(battlerId, split))
+        if (HasMoveWithCategory(battlerId, moveCategory))
             return TRUE;
     }
     return FALSE;
@@ -3455,7 +3455,7 @@ void IncreaseStatUpScore(u8 battlerAtk, u8 battlerDef, u8 statId, s16 *score)
     switch (statId)
     {
     case STAT_ATK:
-        if (HasMoveWithSplit(battlerAtk, SPLIT_PHYSICAL) && GetHealthPercentage(battlerAtk) > 40)
+        if (HasMoveWithCategory(battlerAtk, MOVE_CATEGORY_PHYSICAL) && GetHealthPercentage(battlerAtk) > 40)
         {
             if (gBattleMons[battlerAtk].statStages[STAT_ATK] < STAT_UP_2_STAGE)
                 *score += 2;
@@ -3466,7 +3466,7 @@ void IncreaseStatUpScore(u8 battlerAtk, u8 battlerDef, u8 statId, s16 *score)
             *(score)++;
         break;
     case STAT_DEF:
-        if ((HasMoveWithSplit(battlerDef, SPLIT_PHYSICAL)|| IS_MOVE_PHYSICAL(gLastMoves[battlerDef]))
+        if ((HasMoveWithCategory(battlerDef, MOVE_CATEGORY_PHYSICAL)|| IS_MOVE_PHYSICAL(gLastMoves[battlerDef]))
           && GetHealthPercentage(battlerAtk) > 70)
         {
             if (gBattleMons[battlerAtk].statStages[STAT_DEF] < STAT_UP_2_STAGE)
@@ -3485,7 +3485,7 @@ void IncreaseStatUpScore(u8 battlerAtk, u8 battlerDef, u8 statId, s16 *score)
         }
         break;
     case STAT_SPATK:
-        if (HasMoveWithSplit(battlerAtk, SPLIT_SPECIAL) && GetHealthPercentage(battlerAtk) > 40)
+        if (HasMoveWithCategory(battlerAtk, MOVE_CATEGORY_SPECIAL) && GetHealthPercentage(battlerAtk) > 40)
         {
             if (gBattleMons[battlerAtk].statStages[STAT_SPATK] < STAT_UP_2_STAGE)
                 *score += 2;
@@ -3494,7 +3494,7 @@ void IncreaseStatUpScore(u8 battlerAtk, u8 battlerDef, u8 statId, s16 *score)
         }
         break;
     case STAT_SPDEF:
-        if ((HasMoveWithSplit(battlerDef, SPLIT_SPECIAL) || IS_MOVE_SPECIAL(gLastMoves[battlerDef]))
+        if ((HasMoveWithCategory(battlerDef, MOVE_CATEGORY_SPECIAL) || IS_MOVE_SPECIAL(gLastMoves[battlerDef]))
           && GetHealthPercentage(battlerAtk) > 70)
         {
             if (gBattleMons[battlerAtk].statStages[STAT_SPDEF] < STAT_UP_2_STAGE)
@@ -3552,7 +3552,7 @@ void IncreaseBurnScore(u8 battlerAtk, u8 battlerDef, u16 move, s16 *score)
     if (AI_CanBurn(battlerAtk, battlerDef, AI_DATA->defAbility, AI_DATA->battlerAtkPartner, move, AI_DATA->partnerMove))
     {
         (*score)++; // burning is good
-        if (HasMoveWithSplit(battlerDef, SPLIT_PHYSICAL))
+        if (HasMoveWithCategory(battlerDef, MOVE_CATEGORY_PHYSICAL))
         {
             if (CanTargetFaintAi(battlerDef, battlerAtk))
                 *score += 2; // burning the target to stay alive is cool

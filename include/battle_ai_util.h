@@ -79,7 +79,7 @@ bool32 ShouldLowerEvasion(u8 battlerAtk, u8 battlerDef, u16 defAbility);
 
 // move checks
 bool32 IsAffectedByPowder(u8 battler, u16 ability, u16 holdEffect);
-bool32 MovesWithSplitUnusable(u32 attacker, u32 target, u32 split);
+bool32 MovesWithCategoryUnusable(u32 attacker, u32 target, u32 moveCategory);
 s32 AI_CalcDamage(u16 move, u8 battlerAtk, u8 battlerDef);
 u8 GetMoveDamageResult(u16 move);
 u32 GetCurrDamageHpPercent(u8 battlerAtk, u8 battlerDef);
@@ -88,10 +88,10 @@ u8 AI_GetMoveEffectiveness(u16 move, u8 battlerAtk, u8 battlerDef);
 u16 *GetMovesArray(u32 battler);
 bool32 IsConfusionMoveEffect(u16 moveEffect);
 bool32 HasMove(u32 battlerId, u32 move);
-bool32 HasOnlyMovesWithSplit(u32 battlerId, u32 split, bool32 onlyOffensive);
-bool32 HasMoveWithSplit(u32 battler, u32 split);
+bool32 HasOnlyMovesWithCategory(u32 battlerId, u32 moveCategory, bool32 onlyOffensive);
+bool32 HasMoveWithCategory(u32 battler, u32 moveCategory);
 bool32 HasMoveWithType(u32 battler, u8 type);
-bool32 HasMoveWithTypeAndSplit(u32 battler, u8 type, u8 split);
+bool32 HasMoveWithTypeAndCategory(u32 battler, u8 type, u8 moveCategory);
 bool32 HasMoveEffect(u32 battlerId, u16 moveEffect);
 bool32 HasMoveWithLowAccuracy(u8, u8, u8, bool32, u16, u16, u16, u16);
 bool32 TestMoveFlagsInMoveset(u8 battler, u32 flags);
@@ -160,8 +160,8 @@ bool32 ShouldUseWishAromatherapy(u8 battlerAtk, u8 battlerDef, u16 move);
 s32 AI_CalcPartyMonDamage(u16 move, u8 battlerAtk, u8 battlerDef, struct Pokemon *mon);
 s32 CountUsablePartyMons(u8 battlerId);
 bool32 IsPartyFullyHealedExceptBattler(u8 battler);
-bool32 PartyHasMoveSplit(u8 battlerId, u8 split);
-bool32 SideHasMoveSplit(u8 battlerId, u8 split);
+bool32 PartyHasMoveCategory(u8 battlerId, u8 moveCategory);
+bool32 SideHasMoveCategory(u8 battlerId, u8 moveCategory);
 
 // score increases
 void IncreaseStatUpScore(u8 battlerAtk, u8 battlerDef, u8 statId, s16 *score);

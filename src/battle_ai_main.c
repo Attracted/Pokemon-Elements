@@ -845,7 +845,7 @@ static s16 AI_CheckBadMove(u8 battlerAtk, u8 battlerDef, u16 move, s16 score)
     // stat raising effects
         case EFFECT_ATTACK_UP:
         case EFFECT_ATTACK_UP_2:
-            if (!BattlerStatCanRise(battlerAtk, AI_DATA->atkAbility, STAT_ATK) || !HasMoveWithSplit(battlerAtk, SPLIT_PHYSICAL))
+            if (!BattlerStatCanRise(battlerAtk, AI_DATA->atkAbility, STAT_ATK) || !HasMoveWithCategory(battlerAtk, MOVE_CATEGORY_PHYSICAL))
                 score -= 10;
             break;
         case EFFECT_STUFF_CHEEKS:
@@ -862,7 +862,7 @@ static s16 AI_CheckBadMove(u8 battlerAtk, u8 battlerDef, u16 move, s16 score)
         case EFFECT_SPECIAL_ATTACK_UP:
         case EFFECT_SPECIAL_ATTACK_UP_2:
         case EFFECT_SPECIAL_ATTACK_UP_3:
-            if (!BattlerStatCanRise(battlerAtk, AI_DATA->atkAbility, STAT_SPATK) || !HasMoveWithSplit(battlerAtk, SPLIT_SPECIAL))
+            if (!BattlerStatCanRise(battlerAtk, AI_DATA->atkAbility, STAT_SPATK) || !HasMoveWithCategory(battlerAtk, MOVE_CATEGORY_SPECIAL))
                 score -= 10;
             break;
         case EFFECT_SPECIAL_DEFENSE_UP: 
@@ -888,7 +888,7 @@ static s16 AI_CheckBadMove(u8 battlerAtk, u8 battlerDef, u16 move, s16 score)
                 score -= 8;
             break;
         case EFFECT_BULK_UP:
-            if (!BattlerStatCanRise(battlerAtk, AI_DATA->atkAbility, STAT_ATK) || !HasMoveWithSplit(battlerAtk, SPLIT_PHYSICAL))
+            if (!BattlerStatCanRise(battlerAtk, AI_DATA->atkAbility, STAT_ATK) || !HasMoveWithCategory(battlerAtk, MOVE_CATEGORY_PHYSICAL))
                 score -= 10;
             else if (!BattlerStatCanRise(battlerAtk, AI_DATA->atkAbility, STAT_DEF))
                 score -= 8;
@@ -900,7 +900,7 @@ static s16 AI_CheckBadMove(u8 battlerAtk, u8 battlerDef, u16 move, s16 score)
                 score -= 8;
             break;
         case EFFECT_DRAGON_DANCE:
-            if (!BattlerStatCanRise(battlerAtk, AI_DATA->atkAbility, STAT_ATK) || !HasMoveWithSplit(battlerAtk, SPLIT_PHYSICAL))
+            if (!BattlerStatCanRise(battlerAtk, AI_DATA->atkAbility, STAT_ATK) || !HasMoveWithCategory(battlerAtk, MOVE_CATEGORY_PHYSICAL))
                 score -= 10;
             else if (!BattlerStatCanRise(battlerAtk, AI_DATA->atkAbility, STAT_SPEED))
                 score -= 8;
@@ -908,7 +908,7 @@ static s16 AI_CheckBadMove(u8 battlerAtk, u8 battlerDef, u16 move, s16 score)
         case EFFECT_COIL:
             if (!BattlerStatCanRise(battlerAtk, AI_DATA->atkAbility, STAT_ACC))
                 score -= 10;
-            else if (!BattlerStatCanRise(battlerAtk, AI_DATA->atkAbility, STAT_ATK) || !HasMoveWithSplit(battlerAtk, SPLIT_PHYSICAL))
+            else if (!BattlerStatCanRise(battlerAtk, AI_DATA->atkAbility, STAT_ATK) || !HasMoveWithCategory(battlerAtk, MOVE_CATEGORY_PHYSICAL))
                 score -= 8;
             else if (!BattlerStatCanRise(battlerAtk, AI_DATA->atkAbility, STAT_DEF))
                 score -= 6;
@@ -917,7 +917,7 @@ static s16 AI_CheckBadMove(u8 battlerAtk, u8 battlerDef, u16 move, s16 score)
             if (AI_DATA->atkAbility != ABILITY_CONTRARY)
             {
                 if (gBattleMons[battlerAtk].statStages[STAT_ATK] >= MAX_STAT_STAGE
-                  && (gBattleMons[battlerAtk].statStages[STAT_ACC] >= MAX_STAT_STAGE || !HasMoveWithSplit(battlerAtk, SPLIT_PHYSICAL)))
+                  && (gBattleMons[battlerAtk].statStages[STAT_ACC] >= MAX_STAT_STAGE || !HasMoveWithCategory(battlerAtk, MOVE_CATEGORY_PHYSICAL)))
                     score -= 10;
                 break;
             }
@@ -936,7 +936,7 @@ static s16 AI_CheckBadMove(u8 battlerAtk, u8 battlerDef, u16 move, s16 score)
             break;
         case EFFECT_QUIVER_DANCE:
         case EFFECT_GEOMANCY:
-            if (gBattleMons[battlerAtk].statStages[STAT_SPATK] >= MAX_STAT_STAGE || !HasMoveWithSplit(battlerAtk, SPLIT_SPECIAL))
+            if (gBattleMons[battlerAtk].statStages[STAT_SPATK] >= MAX_STAT_STAGE || !HasMoveWithCategory(battlerAtk, MOVE_CATEGORY_SPECIAL))
                 score -= 10;
             else if (!BattlerStatCanRise(battlerAtk, AI_DATA->atkAbility, STAT_SPEED))
                 score -= 8;
@@ -944,7 +944,7 @@ static s16 AI_CheckBadMove(u8 battlerAtk, u8 battlerDef, u16 move, s16 score)
                 score -= 6;
             break;
         case EFFECT_SHIFT_GEAR:
-            if (!BattlerStatCanRise(battlerAtk, AI_DATA->atkAbility, STAT_ATK) || !HasMoveWithSplit(battlerAtk, SPLIT_PHYSICAL))
+            if (!BattlerStatCanRise(battlerAtk, AI_DATA->atkAbility, STAT_ATK) || !HasMoveWithCategory(battlerAtk, MOVE_CATEGORY_PHYSICAL))
                 score -= 10;
             else if (!BattlerStatCanRise(battlerAtk, AI_DATA->atkAbility, STAT_SPEED))
                 score -= 8;
@@ -959,9 +959,9 @@ static s16 AI_CheckBadMove(u8 battlerAtk, u8 battlerDef, u16 move, s16 score)
             }
             else
             {
-                if (!BattlerStatCanRise(battlerAtk, AI_DATA->atkAbility, STAT_ATK) || !HasMoveWithSplit(battlerAtk, SPLIT_PHYSICAL))
+                if (!BattlerStatCanRise(battlerAtk, AI_DATA->atkAbility, STAT_ATK) || !HasMoveWithCategory(battlerAtk, MOVE_CATEGORY_PHYSICAL))
                     score -= 10;
-                else if (!BattlerStatCanRise(battlerAtk, AI_DATA->atkAbility, STAT_SPATK) || !HasMoveWithSplit(battlerAtk, SPLIT_SPECIAL))
+                else if (!BattlerStatCanRise(battlerAtk, AI_DATA->atkAbility, STAT_SPATK) || !HasMoveWithCategory(battlerAtk, MOVE_CATEGORY_SPECIAL))
                     score -= 8;
                 else if (!BattlerStatCanRise(battlerAtk, AI_DATA->atkAbility, STAT_SPEED))
                     score -= 6;
@@ -969,9 +969,9 @@ static s16 AI_CheckBadMove(u8 battlerAtk, u8 battlerDef, u16 move, s16 score)
             break;
         case EFFECT_GROWTH:
         case EFFECT_ATTACK_SPATK_UP:    // work up
-            if (!BattlerStatCanRise(battlerAtk, AI_DATA->atkAbility, STAT_ATK) || !HasMoveWithSplit(battlerAtk, SPLIT_PHYSICAL))
+            if (!BattlerStatCanRise(battlerAtk, AI_DATA->atkAbility, STAT_ATK) || !HasMoveWithCategory(battlerAtk, MOVE_CATEGORY_PHYSICAL))
                 score -= 10;
-            else if (!BattlerStatCanRise(battlerAtk, AI_DATA->atkAbility, STAT_SPATK) || !HasMoveWithSplit(battlerAtk, SPLIT_SPECIAL))
+            else if (!BattlerStatCanRise(battlerAtk, AI_DATA->atkAbility, STAT_SPATK) || !HasMoveWithCategory(battlerAtk, MOVE_CATEGORY_SPECIAL))
                 score -= 8;
             break;
         case EFFECT_ROTOTILLER:
@@ -1000,9 +1000,9 @@ static s16 AI_CheckBadMove(u8 battlerAtk, u8 battlerDef, u16 move, s16 score)
             if (AI_DATA->atkAbility == ABILITY_PLUS || AI_DATA->atkAbility == ABILITY_MINUS)
             {
                 // same as growth, work up
-                if (!BattlerStatCanRise(battlerAtk, AI_DATA->atkAbility, STAT_ATK) || !HasMoveWithSplit(battlerAtk, SPLIT_PHYSICAL))
+                if (!BattlerStatCanRise(battlerAtk, AI_DATA->atkAbility, STAT_ATK) || !HasMoveWithCategory(battlerAtk, MOVE_CATEGORY_PHYSICAL))
                     score -= 10;
-                else if (!BattlerStatCanRise(battlerAtk, AI_DATA->atkAbility, STAT_SPATK) || !HasMoveWithSplit(battlerAtk, SPLIT_SPECIAL))
+                else if (!BattlerStatCanRise(battlerAtk, AI_DATA->atkAbility, STAT_SPATK) || !HasMoveWithCategory(battlerAtk, MOVE_CATEGORY_SPECIAL))
                     score -= 8;
                 break;
             }
@@ -1015,8 +1015,8 @@ static s16 AI_CheckBadMove(u8 battlerAtk, u8 battlerDef, u16 move, s16 score)
             {
                 if (AI_DATA->atkPartnerAbility == ABILITY_PLUS || AI_DATA->atkPartnerAbility == ABILITY_MINUS)
                 {
-                    if ((!BattlerStatCanRise(AI_DATA->battlerAtkPartner, AI_DATA->atkPartnerAbility, STAT_ATK) || !HasMoveWithSplit(battlerAtk, SPLIT_PHYSICAL))
-                      && (!BattlerStatCanRise(AI_DATA->battlerAtkPartner, AI_DATA->atkPartnerAbility, STAT_SPATK) || !HasMoveWithSplit(battlerAtk, SPLIT_SPECIAL)))
+                    if ((!BattlerStatCanRise(AI_DATA->battlerAtkPartner, AI_DATA->atkPartnerAbility, STAT_ATK) || !HasMoveWithCategory(battlerAtk, MOVE_CATEGORY_PHYSICAL))
+                      && (!BattlerStatCanRise(AI_DATA->battlerAtkPartner, AI_DATA->atkPartnerAbility, STAT_SPATK) || !HasMoveWithCategory(battlerAtk, MOVE_CATEGORY_SPECIAL)))
                         score -= 10;
                 }
                 else if (AI_DATA->atkAbility != ABILITY_PLUS && AI_DATA->atkAbility != ABILITY_MINUS)
@@ -1060,7 +1060,7 @@ static s16 AI_CheckBadMove(u8 battlerAtk, u8 battlerDef, u16 move, s16 score)
     // stat lowering effects
         case EFFECT_ATTACK_DOWN:
         case EFFECT_ATTACK_DOWN_2:
-            if (!ShouldLowerStat(battlerDef, AI_DATA->defAbility, STAT_ATK)) //|| !HasMoveWithSplit(battlerDef, SPLIT_PHYSICAL))
+            if (!ShouldLowerStat(battlerDef, AI_DATA->defAbility, STAT_ATK)) //|| !HasMoveWithCategory(battlerDef, MOVE_CATEGORY_PHYSICAL))
                 score -= 10;
             else if (AI_DATA->defAbility == ABILITY_HYPER_CUTTER)
                 score -= 10;
@@ -1079,7 +1079,7 @@ static s16 AI_CheckBadMove(u8 battlerAtk, u8 battlerDef, u16 move, s16 score)
             break;
         case EFFECT_SPECIAL_ATTACK_DOWN:
         case EFFECT_SPECIAL_ATTACK_DOWN_2:
-            if (!ShouldLowerStat(battlerDef, AI_DATA->defAbility, STAT_SPATK)) //|| !HasMoveWithSplit(battlerDef, SPLIT_SPECIAL))
+            if (!ShouldLowerStat(battlerDef, AI_DATA->defAbility, STAT_SPATK)) //|| !HasMoveWithCategory(battlerDef, MOVE_CATEGORY_SPECIAL))
                 score -= 10;
             break;
         case EFFECT_SPECIAL_DEFENSE_DOWN:
@@ -1179,7 +1179,7 @@ static s16 AI_CheckBadMove(u8 battlerAtk, u8 battlerDef, u16 move, s16 score)
         case EFFECT_MIRROR_COAT:
             if (IsBattlerIncapacitated(battlerDef, AI_DATA->defAbility) || gBattleMons[battlerDef].status2 & (STATUS2_INFATUATION | STATUS2_CONFUSION))
                 score--;
-            if (predictedMove == MOVE_NONE || GetBattleMoveSplit(predictedMove) == SPLIT_STATUS
+            if (predictedMove == MOVE_NONE || GetBattleMoveCategory(predictedMove) == MOVE_CATEGORY_STATUS
               || DoesSubstituteBlockMove(battlerAtk, AI_DATA->battlerDefPartner, predictedMove))
                 score -= 10;
             break;
@@ -1326,7 +1326,7 @@ static s16 AI_CheckBadMove(u8 battlerAtk, u8 battlerDef, u16 move, s16 score)
             }
             else // regular curse
             {
-                if (!BattlerStatCanRise(battlerAtk, AI_DATA->atkAbility, STAT_ATK) || !HasMoveWithSplit(battlerAtk, SPLIT_PHYSICAL))
+                if (!BattlerStatCanRise(battlerAtk, AI_DATA->atkAbility, STAT_ATK) || !HasMoveWithCategory(battlerAtk, MOVE_CATEGORY_PHYSICAL))
                     score -= 10;
                 else if (!BattlerStatCanRise(battlerAtk, AI_DATA->atkAbility, STAT_DEF))
                     score -= 8;
@@ -2016,7 +2016,7 @@ static s16 AI_CheckBadMove(u8 battlerAtk, u8 battlerDef, u16 move, s16 score)
         case EFFECT_POWER_TRICK:
             if (IsTargetingPartner(battlerAtk, battlerDef))
                 score -= 10;
-            else if (gBattleMons[battlerAtk].defense >= gBattleMons[battlerAtk].attack && !HasMoveWithSplit(battlerAtk, SPLIT_PHYSICAL))
+            else if (gBattleMons[battlerAtk].defense >= gBattleMons[battlerAtk].attack && !HasMoveWithCategory(battlerAtk, MOVE_CATEGORY_PHYSICAL))
                 score -= 10;
             break;
         case EFFECT_POWER_SWAP: // Don't use if attacker's stat stages are higher than opponents
@@ -2663,7 +2663,7 @@ static s16 AI_DoubleBattle(u8 battlerAtk, u8 battlerDef, u16 move, s16 score)
                     break;
                 case ABILITY_LIGHTNING_ROD:
                     if (moveType == TYPE_ELECTRIC
-                      && HasMoveWithSplit(battlerAtkPartner, SPLIT_SPECIAL)
+                      && HasMoveWithCategory(battlerAtkPartner, MOVE_CATEGORY_SPECIAL)
                       && BattlerStatCanRise(battlerAtkPartner, atkPartnerAbility, STAT_SPATK))
                     {
                         RETURN_SCORE_PLUS(1);
@@ -2678,7 +2678,7 @@ static s16 AI_DoubleBattle(u8 battlerAtk, u8 battlerDef, u16 move, s16 score)
                     break;  // handled in AI_HPAware
                 case ABILITY_STORM_DRAIN:
                     if (moveType == TYPE_WATER
-                      && HasMoveWithSplit(battlerAtkPartner, SPLIT_SPECIAL)
+                      && HasMoveWithCategory(battlerAtkPartner, MOVE_CATEGORY_SPECIAL)
                       && BattlerStatCanRise(battlerAtkPartner, atkPartnerAbility, STAT_SPATK))
                     {
                         RETURN_SCORE_PLUS(1);
@@ -2701,7 +2701,7 @@ static s16 AI_DoubleBattle(u8 battlerAtk, u8 battlerDef, u16 move, s16 score)
                     break;
                 case ABILITY_SAP_SIPPER:
                     if (moveType == TYPE_GRASS
-                      && HasMoveWithSplit(battlerAtkPartner, SPLIT_PHYSICAL)
+                      && HasMoveWithCategory(battlerAtkPartner, MOVE_CATEGORY_PHYSICAL)
                       && BattlerStatCanRise(battlerAtkPartner, atkPartnerAbility, STAT_ATK))
                     {
                         RETURN_SCORE_PLUS(1);
@@ -2710,7 +2710,7 @@ static s16 AI_DoubleBattle(u8 battlerAtk, u8 battlerDef, u16 move, s16 score)
                 case ABILITY_JUSTIFIED:
                     if (moveType == TYPE_DARK
                       && !IS_MOVE_STATUS(move)
-                      && HasMoveWithSplit(battlerAtkPartner, SPLIT_PHYSICAL)
+                      && HasMoveWithCategory(battlerAtkPartner, MOVE_CATEGORY_PHYSICAL)
                       && BattlerStatCanRise(battlerAtkPartner, atkPartnerAbility, STAT_ATK)
                       && !CanIndexMoveFaintTarget(battlerAtk, battlerAtkPartner, AI_THINKING_STRUCT->movesetIndex, 1))
                     {
@@ -2763,7 +2763,7 @@ static s16 AI_DoubleBattle(u8 battlerAtk, u8 battlerDef, u16 move, s16 score)
                 break;
             case EFFECT_SWAGGER:
                 if (gBattleMons[battlerAtkPartner].statStages[STAT_ATK] < MAX_STAT_STAGE
-                 && HasMoveWithSplit(battlerAtkPartner, SPLIT_PHYSICAL)
+                 && HasMoveWithCategory(battlerAtkPartner, MOVE_CATEGORY_PHYSICAL)
                  && (!AI_CanBeConfused(battlerAtkPartner, TRUE)
                   || atkPartnerHoldEffect == HOLD_EFFECT_CURE_CONFUSION
                   || atkPartnerHoldEffect == HOLD_EFFECT_CURE_STATUS))
@@ -2773,7 +2773,7 @@ static s16 AI_DoubleBattle(u8 battlerAtk, u8 battlerDef, u16 move, s16 score)
                 break;
             case EFFECT_FLATTER:
                 if (gBattleMons[battlerAtkPartner].statStages[STAT_SPATK] < MAX_STAT_STAGE
-                 && HasMoveWithSplit(battlerAtkPartner, SPLIT_SPECIAL)
+                 && HasMoveWithCategory(battlerAtkPartner, MOVE_CATEGORY_SPECIAL)
                  && (!AI_CanBeConfused(battlerAtkPartner, TRUE)
                   || atkPartnerHoldEffect == HOLD_EFFECT_CURE_CONFUSION
                   || atkPartnerHoldEffect == HOLD_EFFECT_CURE_STATUS))
@@ -2785,7 +2785,7 @@ static s16 AI_DoubleBattle(u8 battlerAtk, u8 battlerDef, u16 move, s16 score)
                 if (atkPartnerAbility == ABILITY_JUSTIFIED
                   && moveType == TYPE_DARK
                   && !IS_MOVE_STATUS(move)
-                  && HasMoveWithSplit(battlerAtkPartner, SPLIT_PHYSICAL)
+                  && HasMoveWithCategory(battlerAtkPartner, MOVE_CATEGORY_PHYSICAL)
                   && BattlerStatCanRise(battlerAtkPartner, atkPartnerAbility, STAT_ATK)
                   && !CanIndexMoveFaintTarget(battlerAtk, battlerAtkPartner, AI_THINKING_STRUCT->movesetIndex, 0))
                 {
@@ -2961,7 +2961,7 @@ static s16 AI_CheckViability(u8 battlerAtk, u8 battlerDef, u16 move, s16 score)
             break;
         case ABILITY_NATURAL_CURE:
             if (AI_THINKING_STRUCT->aiFlags & AI_FLAG_SMART_SWITCHING
-             && HasOnlyMovesWithSplit(battlerAtk, SPLIT_PHYSICAL, TRUE))
+             && HasOnlyMovesWithCategory(battlerAtk, MOVE_CATEGORY_PHYSICAL, TRUE))
                 score = 90; // Force switch if all your attacking moves are physical and you have Natural Cure.
             break;
         default:
@@ -3019,7 +3019,7 @@ static s16 AI_CheckViability(u8 battlerAtk, u8 battlerDef, u16 move, s16 score)
 // stat raising effects
 	case EFFECT_ATTACK_UP:
     case EFFECT_ATTACK_UP_2:
-        if (MovesWithSplitUnusable(battlerAtk, battlerDef, SPLIT_PHYSICAL))
+        if (MovesWithCategoryUnusable(battlerAtk, battlerDef, MOVE_CATEGORY_PHYSICAL))
         {
             score -= 8;
             break;
@@ -3041,7 +3041,7 @@ static s16 AI_CheckViability(u8 battlerAtk, u8 battlerDef, u16 move, s16 score)
 	case EFFECT_DEFENSE_UP:
     case EFFECT_DEFENSE_UP_2:
     case EFFECT_DEFENSE_UP_3:
-        if (!HasMoveWithSplit(battlerDef, SPLIT_PHYSICAL))
+        if (!HasMoveWithCategory(battlerDef, MOVE_CATEGORY_PHYSICAL))
             score -= 2;
         if (atkHpPercent > 90 && AI_RandLessThan(128))
             score += 2;
@@ -3065,7 +3065,7 @@ static s16 AI_CheckViability(u8 battlerAtk, u8 battlerDef, u16 move, s16 score)
 	case EFFECT_SPECIAL_ATTACK_UP:
     case EFFECT_SPECIAL_ATTACK_UP_2:
     case EFFECT_SPECIAL_ATTACK_UP_3:
-        if (MovesWithSplitUnusable(battlerAtk, battlerDef, SPLIT_SPECIAL))
+        if (MovesWithCategoryUnusable(battlerAtk, battlerDef, MOVE_CATEGORY_SPECIAL))
         {
             score -= 8;
             break;
@@ -3086,7 +3086,7 @@ static s16 AI_CheckViability(u8 battlerAtk, u8 battlerDef, u16 move, s16 score)
         break;
 	case EFFECT_SPECIAL_DEFENSE_UP:
     case EFFECT_SPECIAL_DEFENSE_UP_2:
-        if (!HasMoveWithSplit(battlerDef, SPLIT_SPECIAL))
+        if (!HasMoveWithCategory(battlerDef, MOVE_CATEGORY_SPECIAL))
             score -= 2;
         if (atkHpPercent > 90 && AI_RandLessThan(128))
             score += 2;
@@ -3232,9 +3232,9 @@ static s16 AI_CheckViability(u8 battlerAtk, u8 battlerDef, u16 move, s16 score)
         if (GetHealthPercentage(battlerAtk) <= 40 || AI_DATA->atkAbility == ABILITY_CONTRARY)
             break;
         
-        if (HasMoveWithSplit(battlerAtk, SPLIT_PHYSICAL))
+        if (HasMoveWithCategory(battlerAtk, MOVE_CATEGORY_PHYSICAL))
             IncreaseStatUpScore(battlerAtk, battlerDef, STAT_ATK, &score);
-        else if (HasMoveWithSplit(battlerAtk, SPLIT_SPECIAL))
+        else if (HasMoveWithCategory(battlerAtk, MOVE_CATEGORY_SPECIAL))
             IncreaseStatUpScore(battlerAtk, battlerDef, STAT_SPATK, &score);
         break;
     case EFFECT_HAZE:
@@ -3472,7 +3472,7 @@ static s16 AI_CheckViability(u8 battlerAtk, u8 battlerDef, u16 move, s16 score)
             if (CountUsablePartyMons(battlerAtk) == 0)
                 break; // Can't switch
 
-            //if (switchAbility == ABILITY_INTIMIDATE && PartyHasMoveSplit(battlerDef, SPLIT_PHYSICAL))
+            //if (switchAbility == ABILITY_INTIMIDATE && PartyHasMoveCategory(battlerDef, MOVE_CATEGORY_PHYSICAL))
                 //score += 7;
         }
         break;
@@ -3795,7 +3795,7 @@ static s16 AI_CheckViability(u8 battlerAtk, u8 battlerDef, u16 move, s16 score)
         }
         break;
     case EFFECT_BELLY_DRUM:
-        if (!CanTargetFaintAi(battlerDef, battlerAtk) && HasMoveWithSplit(battlerAtk, SPLIT_PHYSICAL) && AI_DATA->atkAbility != ABILITY_CONTRARY)
+        if (!CanTargetFaintAi(battlerDef, battlerAtk) && HasMoveWithCategory(battlerAtk, MOVE_CATEGORY_PHYSICAL) && AI_DATA->atkAbility != ABILITY_CONTRARY)
             score += (MAX_STAT_STAGE - gBattleMons[battlerAtk].statStages[STAT_ATK]);
         break;
     case EFFECT_PSYCH_UP:
@@ -3808,11 +3808,11 @@ static s16 AI_CheckViability(u8 battlerAtk, u8 battlerDef, u16 move, s16 score)
                 switch (i)
                 {
                 case STAT_ATK:
-                    if (HasMoveWithSplit(battlerAtk, SPLIT_PHYSICAL))
+                    if (HasMoveWithCategory(battlerAtk, MOVE_CATEGORY_PHYSICAL))
                         score++;
                     break;
                 case STAT_SPATK:
-                    if (HasMoveWithSplit(battlerAtk, SPLIT_SPECIAL))
+                    if (HasMoveWithCategory(battlerAtk, MOVE_CATEGORY_SPECIAL))
                         score++;
                     break;
                 case STAT_ACC:
@@ -3994,7 +3994,7 @@ static s16 AI_CheckViability(u8 battlerAtk, u8 battlerDef, u16 move, s16 score)
     case EFFECT_TAUNT:
         if (IS_MOVE_STATUS(predictedMove))
             score += 3;
-        else if (HasMoveWithSplit(battlerDef, SPLIT_STATUS))
+        else if (HasMoveWithCategory(battlerDef, MOVE_CATEGORY_STATUS))
             score += 2;
         break;
     case EFFECT_TRICK:
@@ -4005,11 +4005,11 @@ static s16 AI_CheckViability(u8 battlerAtk, u8 battlerDef, u16 move, s16 score)
             score += 2; // assume its beneficial
             break;
         case HOLD_EFFECT_CHOICE_BAND:
-            if (!HasMoveWithSplit(battlerDef, SPLIT_PHYSICAL))
+            if (!HasMoveWithCategory(battlerDef, MOVE_CATEGORY_PHYSICAL))
                 score += 2;
             break;
         case HOLD_EFFECT_CHOICE_SPECS:
-            if (!HasMoveWithSplit(battlerDef, SPLIT_SPECIAL))
+            if (!HasMoveWithCategory(battlerDef, MOVE_CATEGORY_SPECIAL))
                 score += 2;
             break;
         case HOLD_EFFECT_TOXIC_ORB:
@@ -4206,7 +4206,7 @@ static s16 AI_CheckViability(u8 battlerAtk, u8 battlerDef, u16 move, s16 score)
             score++;
         break;
     case EFFECT_TICKLE:
-        if (gBattleMons[battlerDef].statStages[STAT_DEF] > 4 && HasMoveWithSplit(battlerAtk, SPLIT_PHYSICAL)
+        if (gBattleMons[battlerDef].statStages[STAT_DEF] > 4 && HasMoveWithCategory(battlerAtk, MOVE_CATEGORY_PHYSICAL)
           && AI_DATA->defAbility != ABILITY_CONTRARY && ShouldLowerDefense(battlerAtk, battlerDef, AI_DATA->defAbility))
         {
             score += 2;
@@ -4269,7 +4269,7 @@ static s16 AI_CheckViability(u8 battlerAtk, u8 battlerDef, u16 move, s16 score)
     case EFFECT_POWER_TRICK:
         if (!(gStatuses3[battlerAtk] & STATUS3_POWER_TRICK))
         {
-            if (gBattleMons[battlerAtk].defense > gBattleMons[battlerAtk].attack && HasMoveWithSplit(battlerAtk, SPLIT_PHYSICAL))
+            if (gBattleMons[battlerAtk].defense > gBattleMons[battlerAtk].attack && HasMoveWithCategory(battlerAtk, MOVE_CATEGORY_PHYSICAL))
                 score += 2;
             break;
         }
@@ -4371,8 +4371,8 @@ static s16 AI_CheckViability(u8 battlerAtk, u8 battlerDef, u16 move, s16 score)
             score++;
         break;
     case EFFECT_WONDER_ROOM:
-        if ((HasMoveWithSplit(battlerDef, SPLIT_PHYSICAL) && gBattleMons[battlerAtk].defense < gBattleMons[battlerAtk].spDefense)
-          || (HasMoveWithSplit(battlerDef, SPLIT_SPECIAL) && gBattleMons[battlerAtk].spDefense < gBattleMons[battlerAtk].defense))
+        if ((HasMoveWithCategory(battlerDef, MOVE_CATEGORY_PHYSICAL) && gBattleMons[battlerAtk].defense < gBattleMons[battlerAtk].spDefense)
+          || (HasMoveWithCategory(battlerDef, MOVE_CATEGORY_SPECIAL) && gBattleMons[battlerAtk].spDefense < gBattleMons[battlerAtk].defense))
             score += 2;
         break;
     case EFFECT_GRAVITY:
@@ -4542,7 +4542,7 @@ static s16 AI_CheckViability(u8 battlerAtk, u8 battlerDef, u16 move, s16 score)
         {
             if (gDisableStructs[battlerDef].tauntTimer != 0)
                 score++;    // target must use damaging move
-            if (GetMoveDamageResult(predictedMove) >= MOVE_POWER_GOOD && GetBattleMoveSplit(predictedMove) == SPLIT_PHYSICAL)
+            if (GetMoveDamageResult(predictedMove) >= MOVE_POWER_GOOD && GetBattleMoveCategory(predictedMove) == MOVE_CATEGORY_PHYSICAL)
                 score += 3;
         }
         break;
@@ -4551,7 +4551,7 @@ static s16 AI_CheckViability(u8 battlerAtk, u8 battlerDef, u16 move, s16 score)
         {
             if (gDisableStructs[battlerDef].tauntTimer != 0)
                 score++;    // target must use damaging move
-            if (GetMoveDamageResult(predictedMove) >= MOVE_POWER_GOOD && GetBattleMoveSplit(predictedMove) == SPLIT_SPECIAL)
+            if (GetMoveDamageResult(predictedMove) >= MOVE_POWER_GOOD && GetBattleMoveCategory(predictedMove) == MOVE_CATEGORY_SPECIAL)
                 score += 3;
         }
         break;
