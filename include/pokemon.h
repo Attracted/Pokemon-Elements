@@ -245,7 +245,7 @@ struct BattleMove
     u16 target;
     s8 priority;
     u32 flags;
-    u8 split;
+    u8 category;
     u8 argument;
 };
 

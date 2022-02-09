@@ -6044,13 +6044,13 @@ static u8 TrySetMicleBerry(u32 battlerId, u32 itemId, bool32 end2)
     return 0;
 }
 
-static u8 DamagedStatBoostBerryEffect(u8 battlerId, u8 statId, u8 split)
+static u8 DamagedStatBoostBerryEffect(u8 battlerId, u8 statId, u8 moveCategory)
 {
     if (IsBattlerAlive(battlerId)
      && TARGET_TURN_DAMAGED
      && CompareStat(battlerId, statId, MAX_STAT_STAGE, CMP_LESS_THAN)
      && !DoesSubstituteBlockMove(gBattlerAttacker, battlerId, gCurrentMove)
-     && GetBattleMoveSplit(gCurrentMove) == split)
+     && GetBattleMoveCategory(gCurrentMove) == moveCategory)
     {
         BufferStatChange(battlerId, statId, STRINGID_STATROSE);
 
@@ -7135,10 +7135,10 @@ u8 ItemBattleEffects(u8 caseID, u8 battlerId, bool8 moveTurn)
                 }
                 break;
             case HOLD_EFFECT_KEE_BERRY:  // consume and boost defense if used physical move
-                effect = DamagedStatBoostBerryEffect(battlerId, STAT_DEF, SPLIT_PHYSICAL);
+                effect = DamagedStatBoostBerryEffect(battlerId, STAT_DEF, MOVE_CATEGORY_PHYSICAL);
                 break;
             case HOLD_EFFECT_MARANGA_BERRY:  // consume and boost sp. defense if used special move
-                effect = DamagedStatBoostBerryEffect(battlerId, STAT_SPDEF, SPLIT_SPECIAL);
+                effect = DamagedStatBoostBerryEffect(battlerId, STAT_SPDEF, MOVE_CATEGORY_SPECIAL);
                 break;
             case HOLD_EFFECT_STICKY_BARB:
                 if (TARGET_TURN_DAMAGED
@@ -9377,16 +9377,16 @@ bool8 ShouldGetStatBadgeBoost(u16 badgeFlag, u8 battlerId)
         return FALSE;
 }
 
-u8 GetBattleMoveSplit(u32 moveId)
+u8 GetBattleMoveCategory(u32 moveId)
 {
     if (gSwapDamageCategory) // Photon Geyser, Shell Side Arm, Light That Burns the Sky
-        return SPLIT_PHYSICAL;
+        return MOVE_CATEGORY_PHYSICAL;
     else if (IS_MOVE_STATUS(moveId) || B_PHYSICAL_SPECIAL_SPLIT >= GEN_4)
-        return gBattleMoves[moveId].split;
+        return gBattleMoves[moveId].category;
     else if (gBattleMoves[moveId].type < TYPE_MYSTERY)
-        return SPLIT_PHYSICAL;
+        return MOVE_CATEGORY_PHYSICAL;
     else
-        return SPLIT_SPECIAL;
+        return MOVE_CATEGORY_SPECIAL;
 }
 
 static bool32 TryRemoveScreens(u8 battler)

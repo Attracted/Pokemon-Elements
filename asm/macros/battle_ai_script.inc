@@ -594,17 +594,17 @@
 	.4byte \ptr
 	.endm
 	
-	.macro if_has_move_with_split battler:req, split:req, ptr:req
+	.macro if_has_move_with_category battler:req, category:req, ptr:req
 	.byte 0x69
 	.byte \battler
-	.byte \split
+	.byte \category
 	.4byte \ptr
 	.endm
 	
-	.macro if_has_no_move_with_split battler:req, split:req, ptr:req
+	.macro if_has_no_move_with_category battler:req, category:req, ptr:req
 	.byte 0x6A
 	.byte \battler
-	.byte \split
+	.byte \category
 	.4byte \ptr
 	.endm
 	
@@ -660,11 +660,11 @@
 	.byte 0x73
 	.endm
 	
-	.macro get_move_split_from_result
+	.macro get_move_category_from_result
 	.byte 0x74
 	.endm
 	
-	.macro get_considered_move_split
+	.macro get_considered_move_category
 	.byte 0x75
 	.endm
 	
@@ -692,19 +692,19 @@
 	
 @ useful script macros
 	.macro if_has_physical_move battler:req, ptr:req
-	if_has_move_with_split \battler, SPLIT_PHYSICAL, \ptr
+	if_has_move_with_category \battler, MOVE_CATEGORY_PHYSICAL, \ptr
 	.endm
 	
 	.macro if_has_no_physical_move battler:req, ptr:req
-	if_has_no_move_with_split \battler, SPLIT_PHYSICAL, \ptr
+	if_has_no_move_with_category \battler, MOVE_CATEGORY_PHYSICAL, \ptr
 	.endm
 	
 	.macro if_has_special_move battler:req, ptr:req
-	if_has_move_with_split \battler, SPLIT_SPECIAL, \ptr
+	if_has_move_with_category \battler, MOVE_CATEGORY_SPECIAL, \ptr
 	.endm
 	
 	.macro if_has_no_special_move battler:req, ptr:req
-	if_has_no_move_with_split \battler, SPLIT_SPECIAL, \ptr
+	if_has_no_move_with_category \battler, MOVE_CATEGORY_SPECIAL, \ptr
 	.endm
 
 	.macro if_holds_no_item battler, ptr:req
